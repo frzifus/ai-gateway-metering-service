@@ -16,10 +16,17 @@ import (
 	"github.com/noyitz/ai-gateway-metering-service/internal/maasapi"
 	"github.com/noyitz/ai-gateway-metering-service/internal/pricing"
 	"github.com/noyitz/ai-gateway-metering-service/internal/storage"
+	"github.com/noyitz/ai-gateway-metering-service/internal/tracing"
 )
 
 func main() {
 	cfg := config.Load()
+	shutdown, err := tracing.Init(context.Background(), "ai-gateway-metering-service", "dev")
+	if err != nil {
+		slog.Error("tracing init failed", "err", err)
+		os.Exit(1)
+	}
+	defer func() { _ = shutdown(context.Background()) }()
 	if cfg.DatabaseURL == "" {
 		slog.Error("DATABASE_URL is required")
 		os.Exit(1)
