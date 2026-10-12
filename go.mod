@@ -3,6 +3,7 @@ module github.com/noyitz/ai-gateway-metering-service
 go 1.26.0
 
 require (
+	github.com/XSAM/otelsql v0.44.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/lib/pq v1.12.3
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.70.0
